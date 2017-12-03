@@ -30,6 +30,12 @@ class Tasks extends XML_Model
         return $undone;
     }
 
+    public function update($task)
+    {
+        $updatedTask = $this->task->updateTask($task);
+        parent::update($updatedTask);
+    }
+
     // provide form validation rules
     public function rules()
     {
