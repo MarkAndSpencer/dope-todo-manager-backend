@@ -12,14 +12,29 @@ class Task extends CI_Model
     {
     }
 
-    //provide this for now
-    //creates a new task
     public function create($taskObj = null)
     {
         if ($taskObj === null)
             return new Task;
 
         $task = new Task;
+
+        foreach($this->schema() as $field) {
+            if (property_exists($taskObj, $field)) {
+                $val = $taskObj->$field;
+
+                if (is_numeric($val))
+                    $val = intval($val);
+
+                $task->$field = $val;
+            }
+        }
+        return $task;
+    }
+
+    public function updateTask($taskObj = null)
+    {
+        $task = $this->tasks->get($taskObj->id);
 
         foreach($this->schema() as $field) {
             if (property_exists($taskObj, $field)) {
